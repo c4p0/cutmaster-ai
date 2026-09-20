@@ -155,7 +155,7 @@ def cutmaster_color_assist(
         )
 
     response = client.models.generate_content(
-        model="gemini-2.0-flash",
+        model="gemini-3.1-flash-lite-preview",
         contents=[
             {
                 "parts": [
@@ -267,7 +267,7 @@ def cutmaster_match_to_reference(
     )
 
     response = client.models.generate_content(
-        model="gemini-2.0-flash",
+        model="gemini-3.1-flash-lite-preview",
         contents=[
             {
                 "parts": [

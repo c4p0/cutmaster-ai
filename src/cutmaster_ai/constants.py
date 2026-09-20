@@ -183,7 +183,10 @@ KEYFRAME_MODES = {
 # ---------------------------------------------------------------------------
 # Version types  (TimelineItem.AddVersion / LoadVersionByName)
 # ---------------------------------------------------------------------------
-VERSION_TYPES = frozenset({"local", "remote"})
+VERSION_TYPES = {
+    "local": 0,
+    "remote": 1,
+}
 
 # ---------------------------------------------------------------------------
 # Node cache modes  (Graph.SetNodeCacheMode)

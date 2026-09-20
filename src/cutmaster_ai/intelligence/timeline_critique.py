@@ -119,7 +119,7 @@ def cutmaster_timeline_critique(
     )
 
     response = client.models.generate_content(
-        model="gemini-2.0-flash",
+        model="gemini-3.1-flash-lite-preview",
         contents=[{"parts": [{"text": prompt}]}],
     )
 
@@ -169,7 +169,7 @@ def cutmaster_suggest_markers(
     )
 
     response = client.models.generate_content(
-        model="gemini-2.0-flash",
+        model="gemini-3.1-flash-lite-preview",
         contents=[{"parts": [{"text": prompt}]}],
     )
 
@@ -247,7 +247,7 @@ def cutmaster_visual_continuity_check() -> str:
     )
 
     response = client.models.generate_content(
-        model="gemini-2.0-flash",
+        model="gemini-3.1-flash-lite-preview",
         contents=[{"parts": [{"text": prompt}]}],
     )
 

@@ -21,7 +21,7 @@ def _require_gemini():
     return client
 
 
-def _analyze_frame(prompt: str, model: str = "gemini-2.0-flash") -> str:
+def _analyze_frame(prompt: str, model: str = "gemini-3.1-flash-lite-preview") -> str:
     """Export the current frame and analyze it with Gemini.
 
     Internal helper used by all vision tools.
@@ -197,7 +197,7 @@ def cutmaster_compare_frames(
     )
 
     response = client.models.generate_content(
-        model="gemini-2.0-flash",
+        model="gemini-3.1-flash-lite-preview",
         contents=[
             {
                 "parts": [

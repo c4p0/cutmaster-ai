@@ -29,11 +29,12 @@ def cutmaster_list_versions(
         track_index: 1-based track index.
         item_index: 0-based item index.
     """
-    if version_type not in VERSION_TYPES:
+    version_type_val = VERSION_TYPES.get(version_type)
+    if version_type_val is None:
         return f"Invalid version type. Valid: {', '.join(sorted(VERSION_TYPES))}"
     _, project, _ = _boilerplate()
     _, item = _get_timeline_item(project, track_type, track_index, item_index)
-    versions = item.GetVersionNameList(version_type) or []
+    versions = item.GetVersionNameList(version_type_val) or []
     current = item.GetCurrentVersion()
     return json.dumps(
         {
@@ -60,9 +61,12 @@ def cutmaster_add_version(
         name: Version name.
         version_type: 'local' or 'remote'.
     """
+    version_type_val = VERSION_TYPES.get(version_type)
+    if version_type_val is None:
+        return f"Invalid version type. Valid: {', '.join(sorted(VERSION_TYPES))}"
     _, project, _ = _boilerplate()
     _, item = _get_timeline_item(project, track_type, track_index, item_index)
-    result = item.AddVersion(name, version_type)
+    result = item.AddVersion(name, version_type_val)
     return f"Version '{name}' added." if result else "Failed to add version."
 
 
@@ -81,9 +85,12 @@ def cutmaster_load_version(
         name: Version name to load.
         version_type: 'local' or 'remote'.
     """
+    version_type_val = VERSION_TYPES.get(version_type)
+    if version_type_val is None:
+        return f"Invalid version type. Valid: {', '.join(sorted(VERSION_TYPES))}"
     _, project, _ = _boilerplate()
     _, item = _get_timeline_item(project, track_type, track_index, item_index)
-    result = item.LoadVersionByName(name, version_type)
+    result = item.LoadVersionByName(name, version_type_val)
     return f"Loaded version '{name}'." if result else f"Failed to load version '{name}'."
 
 
@@ -102,9 +109,12 @@ def cutmaster_delete_version(
         name: Version name to delete.
         version_type: 'local' or 'remote'.
     """
+    version_type_val = VERSION_TYPES.get(version_type)
+    if version_type_val is None:
+        return f"Invalid version type. Valid: {', '.join(sorted(VERSION_TYPES))}"
     _, project, _ = _boilerplate()
     _, item = _get_timeline_item(project, track_type, track_index, item_index)
-    result = item.DeleteVersionByName(name, version_type)
+    result = item.DeleteVersionByName(name, version_type_val)
     return f"Deleted version '{name}'." if result else f"Failed to delete version '{name}'."
 
 
@@ -125,9 +135,12 @@ def cutmaster_rename_version(
         new_name: New version name.
         version_type: 'local' or 'remote'.
     """
+    version_type_val = VERSION_TYPES.get(version_type)
+    if version_type_val is None:
+        return f"Invalid version type. Valid: {', '.join(sorted(VERSION_TYPES))}"
     _, project, _ = _boilerplate()
     _, item = _get_timeline_item(project, track_type, track_index, item_index)
-    result = item.RenameVersionByName(old_name, new_name, version_type)
+    result = item.RenameVersionByName(old_name, new_name, version_type_val)
     return f"Renamed '{old_name}' to '{new_name}'." if result else "Failed to rename version."
 
 
