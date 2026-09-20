@@ -79,18 +79,18 @@ def cutmaster_get_node_graph(
     track_type: str = "video",
     track_index: int = 1,
     item_index: int = 0,
-    clip_level: bool = False,
+    layer_index: int = 1,
 ) -> str:
     """Get the node graph for a timeline item.
 
     Args:
-        clip_level: True for clip-level graph, False for timeline-level.
+        layer_index: 1-based node-stack layer (Resolve defaults to 1).
     """
     _, project, _ = _boilerplate()
     _, item = _get_timeline_item(project, track_type, track_index, item_index)
-    graph = item.GetNodeGraph(clip_level)
+    graph = item.GetNodeGraph(layer_index)
     if not graph:
-        return "No node graph available."
+        return f"No node graph at layer {layer_index}."
     num_nodes = graph.GetNumNodes() or 0
     nodes = []
     for i in range(1, num_nodes + 1):  # 1-based
@@ -125,18 +125,18 @@ def cutmaster_add_node(
     track_type: str = "video",
     track_index: int = 1,
     item_index: int = 0,
-    clip_level: bool = False,
+    layer_index: int = 1,
 ) -> str:
     """Add a new node to the node graph.
 
     Args:
-        clip_level: True for clip-level graph, False for timeline-level.
+        layer_index: 1-based node-stack layer (Resolve defaults to 1).
     """
     _, project, _ = _boilerplate()
     _, item = _get_timeline_item(project, track_type, track_index, item_index)
-    graph = item.GetNodeGraph(clip_level)
+    graph = item.GetNodeGraph(layer_index)
     if not graph:
-        return "No node graph available."
+        return f"No node graph at layer {layer_index}."
     node_idx = graph.AddNode()
     return f"Node added at index {node_idx}." if node_idx else "Failed to add node."
 
@@ -149,7 +149,7 @@ def cutmaster_set_node_label(
     track_type: str = "video",
     track_index: int = 1,
     item_index: int = 0,
-    clip_level: bool = False,
+    layer_index: int = 1,
 ) -> str:
     """Set the label on a color node.
 
@@ -159,9 +159,9 @@ def cutmaster_set_node_label(
     """
     _, project, _ = _boilerplate()
     _, item = _get_timeline_item(project, track_type, track_index, item_index)
-    graph = item.GetNodeGraph(clip_level)
+    graph = item.GetNodeGraph(layer_index)
     if not graph:
-        return "No node graph available."
+        return f"No node graph at layer {layer_index}."
     result = graph.SetNodeLabel(node_index, label)
     return f"Node {node_index} labeled '{label}'." if result else "Failed to set label."
 
@@ -174,7 +174,7 @@ def cutmaster_set_node_enabled(
     track_type: str = "video",
     track_index: int = 1,
     item_index: int = 0,
-    clip_level: bool = False,
+    layer_index: int = 1,
 ) -> str:
     """Enable or disable a color node.
 
@@ -184,9 +184,9 @@ def cutmaster_set_node_enabled(
     """
     _, project, _ = _boilerplate()
     _, item = _get_timeline_item(project, track_type, track_index, item_index)
-    graph = item.GetNodeGraph(clip_level)
+    graph = item.GetNodeGraph(layer_index)
     if not graph:
-        return "No node graph available."
+        return f"No node graph at layer {layer_index}."
     result = graph.SetNodeEnabled(node_index, enabled)
     state = "enabled" if enabled else "disabled"
     return f"Node {node_index} {state}." if result else f"Failed to {state} node."
@@ -200,7 +200,7 @@ def cutmaster_set_lut(
     track_type: str = "video",
     track_index: int = 1,
     item_index: int = 0,
-    clip_level: bool = False,
+    layer_index: int = 1,
 ) -> str:
     """Apply a LUT to a color node.
 
@@ -210,9 +210,9 @@ def cutmaster_set_lut(
     """
     _, project, _ = _boilerplate()
     _, item = _get_timeline_item(project, track_type, track_index, item_index)
-    graph = item.GetNodeGraph(clip_level)
+    graph = item.GetNodeGraph(layer_index)
     if not graph:
-        return "No node graph available."
+        return f"No node graph at layer {layer_index}."
     result = graph.SetLUT(node_index, lut_path)
     return f"LUT applied to node {node_index}." if result else "Failed to apply LUT."
 
@@ -224,7 +224,7 @@ def cutmaster_get_lut(
     track_type: str = "video",
     track_index: int = 1,
     item_index: int = 0,
-    clip_level: bool = False,
+    layer_index: int = 1,
 ) -> str:
     """Get the LUT path applied to a node.
 
@@ -233,9 +233,9 @@ def cutmaster_get_lut(
     """
     _, project, _ = _boilerplate()
     _, item = _get_timeline_item(project, track_type, track_index, item_index)
-    graph = item.GetNodeGraph(clip_level)
+    graph = item.GetNodeGraph(layer_index)
     if not graph:
-        return "No node graph available."
+        return f"No node graph at layer {layer_index}."
     lut = graph.GetLUT(node_index)
     return f"Node {node_index} LUT: {lut}" if lut else f"No LUT on node {node_index}."
 
@@ -248,7 +248,7 @@ def cutmaster_set_node_cache_mode(
     track_type: str = "video",
     track_index: int = 1,
     item_index: int = 0,
-    clip_level: bool = False,
+    layer_index: int = 1,
 ) -> str:
     """Set the cache mode on a color node.
 
@@ -261,9 +261,9 @@ def cutmaster_set_node_cache_mode(
         return f"Invalid mode '{mode}'. Valid: {', '.join(NODE_CACHE_MODES.keys())}"
     _, project, _ = _boilerplate()
     _, item = _get_timeline_item(project, track_type, track_index, item_index)
-    graph = item.GetNodeGraph(clip_level)
+    graph = item.GetNodeGraph(layer_index)
     if not graph:
-        return "No node graph available."
+        return f"No node graph at layer {layer_index}."
     result = graph.SetNodeCacheMode(node_index, mode_val)
     return f"Node {node_index} cache mode set to {mode}." if result else "Failed to set cache mode."
 
