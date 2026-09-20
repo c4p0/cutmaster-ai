@@ -40,3 +40,17 @@ git push origin main
 Este repositorio es un fork local con adaptaciones para Debian 13 y Resolve 21.1.
 Antes de proponer cambios en tools o workflows, verificar si el archivo ya
 tiene adaptaciones. No asumir que coincide con el upstream original.
+
+## Limitaciones conocidas de la API de Resolve
+
+Verificado contra el stub oficial (`/opt/resolve/Developer/Scripting/DaVinciResolveScript.pyi`):
+
+- `Graph` no tiene `AddNode` ni `SetNodeLabel`. Agregar nodos solo es posible
+  desde la GUI de Resolve.
+- `TimelineItem` no tiene `GetCDL` (solo `SetCDL`).
+- `ColorGroup` no permite crear nodos, solo aplicar LUT a nodos existentes.
+
+Consecuencia practica: cualquier workflow de grade via API debe asumir que los
+nodos ya existen. Si hace falta un nodo nuevo (por ejemplo, un GradeMatch por
+plano), el colorista debe crearlo manualmente desde la GUI antes de que el
+agente actue.
