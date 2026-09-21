@@ -53,6 +53,7 @@ tools:
   - mcp__cutmaster-ai__cutmaster_remove_dctl
   - mcp__cutmaster-ai__cutmaster_get_dctl_search_paths
   - mcp__cutmaster-ai__cutmaster_apply_dctl_to_node
+  - mcp__davinci-resolve__timeline_item_color
 ---
 
 # Colorist Agent

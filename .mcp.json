@@ -7,6 +7,10 @@
     "mcp-playwright": {
       "command": "npx",
       "args": ["-y", "@playwright/mcp@latest"]
+    },
+    "davinci-resolve": {
+      "command": "/home/user/.local/share/davinci-resolve-mcp/venv/bin/python",
+      "args": ["/home/user/.local/share/davinci-resolve-mcp/src/server.py"]
     }
   }
 }

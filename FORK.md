@@ -54,3 +54,17 @@ Consecuencia practica: cualquier workflow de grade via API debe asumir que los
 nodos ya existen. Si hace falta un nodo nuevo (por ejemplo, un GradeMatch por
 plano), el colorista debe crearlo manualmente desde la GUI antes de que el
 agente actue.
+
+## Subagentes y MCP servers
+
+Los subagentes definidos en este plugin (`agents/*.md`) solo pueden usar las
+tools de los MCP servers declarados en el `.mcp.json` de este repo. No heredan
+servidores registrados en user scope (`~/.claude.json`) ni en project scope,
+aunque el agente principal de esa sesion si los tenga disponibles.
+
+Para que un subagente use `davinci-resolve` (o cualquier otro server externo),
+hay que: 1) declararlo en `.mcp.json` de este repo, 2) listar sus tools en el
+frontmatter `tools:` del agente correspondiente, y 3) reinstalar el plugin
+(`claude plugin update cutmaster-ai@cutmaster-ai-local`) para que la cache en
+`~/.claude/plugins/cache/` tome los cambios — editar directamente la cache no
+sirve, se regenera en cada instalacion desde este repo.
