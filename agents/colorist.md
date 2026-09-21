@@ -21,6 +21,7 @@ tools:
   - mcp__cutmaster-ai__cutmaster_set_node_cache_mode
   - mcp__cutmaster-ai__cutmaster_copy_grades
   - mcp__cutmaster-ai__cutmaster_grab_still
+  - mcp__cutmaster-ai__cutmaster_export_current_frame
   - mcp__cutmaster-ai__cutmaster_apply_grade_from_drx
   - mcp__cutmaster-ai__cutmaster_list_versions
   - mcp__cutmaster-ai__cutmaster_add_version

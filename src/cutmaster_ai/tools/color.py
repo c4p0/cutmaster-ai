@@ -328,6 +328,29 @@ def cutmaster_grab_still() -> str:
 
 @mcp.tool
 @safe_resolve_call
+def cutmaster_export_current_frame(format: str = "jpg") -> str:
+    """Grab the CURRENT playhead frame and export it to disk in one atomic step.
+
+    Unlike cutmaster_grab_still (adds to the gallery, no path returned) or
+    cutmaster_export_stills (exports by album index — with a long-lived
+    album full of prior stills, the wrong/stale index is easy to grab by
+    mistake), this exports exactly the still it just grabbed and returns
+    its real path. Use this for any frame-comparison / frame-first
+    workflow (move the playhead first with cutmaster_set_playhead_position).
+
+    Args:
+        format: Image format — 'jpg', 'png', 'tif', or 'dpx'.
+    """
+    from ..utils.media import export_current_frame
+
+    frame = export_current_frame(format=format)
+    if "error" in frame:
+        return f"Error: {frame['error']}"
+    return f"Exported to {frame['path']} (timecode {frame.get('timecode', 'unknown')})."
+
+
+@mcp.tool
+@safe_resolve_call
 def cutmaster_apply_grade_from_drx(
     drx_path: str,
     grade_index: int = 0,

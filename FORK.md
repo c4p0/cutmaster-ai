@@ -68,3 +68,19 @@ frontmatter `tools:` del agente correspondiente, y 3) reinstalar el plugin
 (`claude plugin update cutmaster-ai@cutmaster-ai-local`) para que la cache en
 `~/.claude/plugins/cache/` tome los cambios — editar directamente la cache no
 sirve, se regenera en cada instalacion desde este repo.
+
+## Bug de stills fantasma (gallery still index obsoleto)
+
+`cutmaster_export_stills` exporta por INDICE dentro de `album.GetStills()`,
+no por objeto. En un album con muchos stills acumulados de sesiones previas,
+un agente que graba un still nuevo (`cutmaster_grab_still`) y despues exporta
+sin fijar `still_indices` al indice exacto del nuevo still puede terminar
+re-exportando un still viejo — mismo contenido, prefijo de archivo distinto.
+Sintoma observado: dos "frames" de timecodes distintos (~4 min de diferencia)
+resultaron pixel-identicos.
+
+Fix: se agrego `cutmaster_export_current_frame`, que graba y exporta el frame
+actual en un solo paso atomico (via `GrabStill()` + `ExportStills([still], ...)`
+sobre el objeto recien creado, no por indice) y devuelve el path real. Usar
+esta tool para cualquier comparacion de frames; no usar `cutmaster_export_stills`
+para eso.
