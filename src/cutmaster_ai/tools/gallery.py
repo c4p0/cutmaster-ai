@@ -2,6 +2,7 @@
 
 import json
 import os
+from pathlib import Path
 
 from ..config import mcp
 from ..errors import safe_resolve_call
@@ -171,11 +172,16 @@ def cutmaster_export_stills(
         return "No valid stills selected."
 
     result = album.ExportStills(selected, safe_path, prefix, format)
-    return (
-        f"Exported {len(selected)} still(s) to {safe_path}."
-        if result
-        else "Failed to export stills."
-    )
+    if not result:
+        return "Failed to export stills."
+
+    exported = sorted(
+        (str(f) for f in Path(safe_path).glob(f"{prefix}*") if f.suffix.lower().lstrip(".") == format),
+        key=lambda p: os.path.getmtime(p),
+    )[-len(selected):]
+    if not exported:
+        return f"Exported {len(selected)} still(s) to {safe_path}, but could not locate the file(s) on disk."
+    return f"Exported {len(selected)} still(s): " + ", ".join(exported)
 
 
 @mcp.tool
