@@ -8,6 +8,7 @@ import base64
 import logging
 import os
 import tempfile
+import time
 from pathlib import Path
 
 from ..resolve import _boilerplate, _resolve_safe_dir
@@ -60,8 +61,9 @@ def export_current_frame(
         export_dir = _resolve_safe_dir(tempfile.gettempdir())
     os.makedirs(export_dir, exist_ok=True)
 
-    # Export the still
-    prefix = "cutmaster_frame"
+    # Export the still. Unique per call so a directory full of leftover
+    # exports from earlier calls can never be mistaken for this one.
+    prefix = f"cutmaster_frame_{os.getpid()}_{time.time_ns()}"
     success = album.ExportStills([still], export_dir, prefix, format)
     if not success:
         # Try fallback formats

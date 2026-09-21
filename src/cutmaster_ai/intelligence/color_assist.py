@@ -219,6 +219,7 @@ def cutmaster_match_to_reference(
     track_type: str = "video",
     track_index: int = 1,
     item_index: int = 0,
+    node_index: int = 1,
 ) -> str:
     """Match the current frame's color to a reference image using AI.
 
@@ -231,6 +232,7 @@ def cutmaster_match_to_reference(
         track_type: Track type.
         track_index: 1-based track index.
         item_index: 0-based item index.
+        node_index: 1-based node index to write the CDL to.
     """
     import base64 as b64
     import os
@@ -287,6 +289,7 @@ def cutmaster_match_to_reference(
         "cdl_parsed": cdl,
         "reference": reference_path,
         "timecode": frame.get("timecode", "unknown"),
+        "target_node": node_index,
         "applied": False,
     }
 
@@ -296,7 +299,7 @@ def cutmaster_match_to_reference(
         if tl:
             items = tl.GetItemListInTrack(track_type, track_index) or []
             if item_index < len(items):
-                cdl_payload = {"NodeIndex": "1", **cdl}
+                cdl_payload = {"NodeIndex": str(node_index), **cdl}
                 if items[item_index].SetCDL(cdl_payload):
                     result["applied"] = True
 

@@ -36,6 +36,7 @@ def cutmaster_set_cdl(
     track_type: str = "video",
     track_index: int = 1,
     item_index: int = 0,
+    node_index: int = 1,
     slope_r: float = 1.0,
     slope_g: float = 1.0,
     slope_b: float = 1.0,
@@ -50,6 +51,7 @@ def cutmaster_set_cdl(
     """Set CDL values on a timeline item.
 
     Args:
+        node_index: 1-based node index to write the CDL to.
         slope_r/g/b: Slope (gain) for each channel.
         offset_r/g/b: Offset for each channel.
         power_r/g/b: Power (gamma) for each channel.
@@ -58,14 +60,14 @@ def cutmaster_set_cdl(
     _, project, _ = _boilerplate()
     _, item = _get_timeline_item(project, track_type, track_index, item_index)
     cdl = {
-        "NodeIndex": "1",
+        "NodeIndex": str(node_index),
         "Slope": f"{slope_r} {slope_g} {slope_b}",
         "Offset": f"{offset_r} {offset_g} {offset_b}",
         "Power": f"{power_r} {power_g} {power_b}",
         "Saturation": str(saturation),
     }
     result = item.SetCDL(cdl)
-    return "CDL values applied." if result else "Failed to set CDL values."
+    return f"CDL values applied to node {node_index}." if result else "Failed to set CDL values."
 
 
 # ---------------------------------------------------------------------------
